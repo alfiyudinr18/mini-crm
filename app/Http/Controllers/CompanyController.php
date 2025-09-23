@@ -17,7 +17,6 @@ class CompanyController extends Controller
     public function index(Request $request)
     {
         $companies = Company::orderBy('created_at','desc')->paginate(10);
-        if ($request->wantsJson()) return response()->json($companies);
         return inertia('Companies/Index', compact('companies'));
     }
 
@@ -53,7 +52,6 @@ class CompanyController extends Controller
     {
         $data = $request->validated();
         if ($request->hasFile('logo')) {
-            // delete old
             if ($company->logo) Storage::disk('public')->delete($company->logo);
             $data['logo'] = $request->file('logo')->store('companies', 'public');
         }
