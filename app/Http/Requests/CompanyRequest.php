@@ -22,11 +22,16 @@ class CompanyRequest extends FormRequest
     public function rules(): array
     {
         $rules = [
-            'name' => 'required|string|max:255',
-            'email' => 'nullable|email|max:255',
+            'email'   => 'nullable|email|max:255',
             'website' => 'nullable|url|max:255',
-            'logo' => ['nullable','image','max:2048'],
+            'logo'    => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
         ];
+
+        if ($this->isMethod('post')) {
+            $rules['name'] = 'required|string|max:255';
+        } else {
+            $rules['name'] = 'sometimes|required|string|max:255';
+        }
 
         return $rules;
     }
@@ -37,6 +42,7 @@ class CompanyRequest extends FormRequest
             if ($this->hasFile('logo')) {
                 $image = $this->file('logo');
                 [$width, $height] = getimagesize($image->getRealPath());
+
                 if ($width < 100 || $height < 100) {
                     $validator->errors()->add('logo', 'Logo must be at least 100x100 pixels.');
                 }
