@@ -41,7 +41,9 @@ const removeFile = () => {
 };
 
 const submit = () => {
-    form.put(route("companies.update", props.company.id));
+    form.post(route("companies.update", props.company.id), {
+        forceFormData: true,
+    });
 };
 </script>
 
