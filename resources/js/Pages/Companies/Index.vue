@@ -10,7 +10,8 @@ const props = defineProps({
 
 // Columns untuk DataTable
 const headers = [
-    { text: "ID", value: "id", width: 80 },
+    { text: "No", value: "no", width: 80 },
+    // { text: "ID", value: "id", width: 80 },
     { text: "Company Name", value: "name", width: 200 },
     { text: "Email", value: "email", width: 200 },
     { text: "Website", value: "website", width: 180 },
@@ -19,7 +20,8 @@ const headers = [
 ];
 
 // Data row → diambil dari backend (Laravel paginate)
-const items = props.companies.data.map((company) => ({
+const items = props.companies.data.map((company, index) => ({
+    no: index + 1,
     id: company.id,
     name: company.name,
     email: company.email,

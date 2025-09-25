@@ -10,7 +10,8 @@ const props = defineProps({
 
 // Headers untuk DataTable
 const headers = [
-    { text: "ID", value: "id" },
+    { text: "No", value: "no" },
+    // { text: "ID", value: "id" },
     { text: "First Name", value: "first_name" },
     { text: "Last Name", value: "last_name" },
     { text: "Email", value: "email" },
@@ -20,7 +21,8 @@ const headers = [
 ];
 
 // Mapping data employes ke items DataTable
-const items = props.employes.data.map((employes) => ({
+const items = props.employes.data.map((employes, index) => ({
+    no: index + 1,
     id: employes.id,
     first_name: employes.first_name,
     last_name: employes.last_name,
