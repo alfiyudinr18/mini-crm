@@ -28,4 +28,4 @@ Route::middleware(['auth', 'role:admin'])->group(function () {
     Route::resource('employes', EmployeController::class);
 });
 
-require __DIR__.'/auth.php';
+require __DIR__ . '/auth.php';

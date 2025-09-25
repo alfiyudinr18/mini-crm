@@ -21,14 +21,16 @@ class EmployeRequest extends FormRequest
      */
     public function rules(): array
     {
-        $employeeId = $this->route('employee')?->id;
+        $employeId = $this->route('employe')?->id;
 
         return [
             'first_name' => 'required|string|max:255',
             'last_name' => 'required|string|max:255',
             'company_id' => 'required|exists:companies,id',
             'email' => [
-                'nullable','email','max:255',
+                'nullable',
+                'email',
+                'max:255',
             ],
             'phone' => 'nullable|string|max:50',
         ];

@@ -8,16 +8,13 @@ use Illuminate\Support\Facades\Storage;
 
 class CompanyController extends Controller
 {
-    public function __construct() {
-        $this->middleware('auth');
-    }
 
     /**
      * Display a listing of the resource.
      */
     public function index()
     {
-        $companies = Company::orderBy('created_at','desc')->paginate(10);
+        $companies = Company::orderBy('created_at', 'desc')->paginate(10);
         return inertia('Companies/Index', compact('companies'));
     }
 
@@ -40,7 +37,7 @@ class CompanyController extends Controller
             $data['logo'] = $path;
         }
         $company = Company::create($data);
-        return redirect()->route('companies.index')->with('success','Company created successfully.');
+        return redirect()->route('companies.index')->with('success', 'Company created successfully.');
     }
 
     /**
@@ -70,7 +67,7 @@ class CompanyController extends Controller
             $data['logo'] = $request->file('logo')->store('companies', 'public');
         }
         $company->update($data);
-        return redirect()->route('companies.index')->with('success','Company updated successfully.');
+        return redirect()->route('companies.index')->with('success', 'Company updated successfully.');
     }
 
     /**
@@ -80,6 +77,6 @@ class CompanyController extends Controller
     {
         if ($company->logo) Storage::disk('public')->delete($company->logo);
         $company->delete();
-        return redirect()->route('companies.index')->with('success','Company deleted successfully.');
+        return redirect()->route('companies.index')->with('success', 'Company deleted successfully.');
     }
 }
