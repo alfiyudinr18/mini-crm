@@ -76,7 +76,9 @@ watch(
 
 const editCompany = (id) => {
     router.get(route("companies.edit", id), {
-        preserveState: true,
+        data: {
+            page: serverOptions.value.page,
+        },
         preserveScroll: true,
     });
 };
