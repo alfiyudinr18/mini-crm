@@ -1,12 +1,15 @@
 <script setup>
-import { Head, useForm, Link } from "@inertiajs/vue3";
+import { Head, useForm, Link, usePage } from "@inertiajs/vue3";
 import { ref } from "vue";
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout.vue";
 
 const props = defineProps({
     employe: Object,
-    companies: Array, // buat dropdown pilih company
+    companies: Array,
 });
+
+// Ambil query page dari URL via Inertia props
+const currentPage = usePage().url.split("page=")[1] || 1;
 
 const photoPreview = ref(null);
 
@@ -16,10 +19,13 @@ const form = useForm({
     email: props.employe.email || "",
     phone: props.employe.phone || "",
     company_id: props.employe.company_id || "",
+    page: currentPage, // tambahkan page di form
 });
 
 const submit = () => {
-    form.put(route("employes.update", props.employe.id));
+    form.put(route("employes.update", props.employe.id), {
+        preserveScroll: true,
+    });
 };
 </script>
 
@@ -202,7 +208,7 @@ const submit = () => {
                                 class="flex items-center justify-end space-x-3 pt-6 border-t border-gray-200"
                             >
                                 <Link
-                                    :href="route('employes.index')"
+                                    :href="route('employes.index', { page: form.page })"
                                     class="px-4 py-2 text-sm font-medium text-gray-700 bg-gray-100 border border-gray-300 rounded-md hover:bg-gray-200"
                                 >
                                     Cancel

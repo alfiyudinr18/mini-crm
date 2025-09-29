@@ -75,12 +75,11 @@ watch(
 );
 
 const editCompany = (id) => {
-    router.get(route("companies.edit", id), {
-        data: {
-            page: serverOptions.value.page,
-        },
-        preserveScroll: true,
-    });
+    router.get(
+        route("companies.edit", id),
+        { page: serverOptions.value.page },
+        { preserveScroll: true }
+    );
 };
 const deleteCompany = (id) => {
     if (

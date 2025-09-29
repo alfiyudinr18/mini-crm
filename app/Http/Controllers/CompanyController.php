@@ -64,7 +64,11 @@ class CompanyController extends Controller
      */
     public function edit(Company $company)
     {
-        return inertia('Companies/Edit', compact('company'));
+        $page = request()->query('page', 1);
+        return inertia('Companies/Edit', [
+            'company' => $company,
+            'page' => $page,
+        ]);
     }
 
     /**
@@ -85,8 +89,10 @@ class CompanyController extends Controller
 
         $company->update($data);
 
+        $page = $request->query('page', 1);
+
         return redirect()
-            ->route('companies.index')
+            ->route('companies.index', ['page' => $page])
             ->with('success', 'Company updated successfully.');
     }
 
@@ -97,6 +103,6 @@ class CompanyController extends Controller
     {
         if ($company->logo) Storage::disk('public')->delete($company->logo);
         $company->delete();
-        return redirect()->route('companies.index')->with('success', 'Company deleted successfully.');
+        return redirect()->back()->with('success', 'Company deleted successfully.');
     }
 }

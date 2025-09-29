@@ -78,9 +78,12 @@ class EmployeController extends Controller
      */
     public function edit(Employe $employe)
     {
+        $page = request()->query('page', 1);
+
         return Inertia('Employes/Edit', [
             'employe' => $employe,
             'companies' => Company::all(['id', 'name']),
+            'page' => $page,
         ]);
     }
 
@@ -90,7 +93,11 @@ class EmployeController extends Controller
     public function update(EmployeRequest $request, Employe $employe)
     {
         $employe->update($request->validated());
-        return redirect()->route('employes.index')
+
+        $page = $request->input('page');
+
+        return redirect()
+            ->route('employes.index', ['page' => $page])
             ->with('success', 'Employe updated successfully.');
     }
 
@@ -100,7 +107,6 @@ class EmployeController extends Controller
     public function destroy(Employe $employe)
     {
         $employe->delete();
-        return redirect()->route('employes.index')
-            ->with('success', 'Employe deleted successfully.');
+        return redirect()->back()->with('success', 'Employe deleted successfully.');
     }
 }

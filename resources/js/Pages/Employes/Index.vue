@@ -78,13 +78,14 @@ watch(
 );
 
 const editEmploye = (id) => {
-    router.get(route("employes.edit", id), {
-        data: {
-            page: serverOptions.value.page,
-        },
-        preserveState: true,
-        preserveScroll: true,
-    });
+    router.get(
+        route("employes.edit", id),
+        { page: serverOptions.value.page },
+        {
+            preserveState: true,
+            preserveScroll: true,
+        }
+    );
 };
 
 const deleteEmploye = (id) => {
