@@ -14,29 +14,35 @@ class EmployeController extends Controller
      */
     public function index()
     {
-        $employes = Employe::with('company')
-            ->paginate(10)
-            ->through(fn ($employe) => [
-                'id' => $employe->id,
-                'first_name' => $employe->first_name,
-                'last_name' => $employe->last_name,
-                'email' => $employe->email,
-                'phone' => $employe->phone,
-                'company' => $employe->company?->name,
-             ]);
-            return inertia('Employes/Index', [
-                'employes' => $employes,
-                'auth' => [
-                    'user' => [
-                        'id' => auth()->id(),
-                        'name' => auth()->user()->name,
-                        'email' => auth()->user()->email,
-                        'roles' => auth()->user()->getRoleNames(),
-                    ],
-                ],
-            ]);
-    }
+        $employes = Employe::orderBy('id', 'desc')->with('company')->paginate(10);
 
+        return inertia('Employes/Index', [
+            'employes' => [
+                'data' => $employes->map(fn($employe) => [
+                    'id' => $employe->id,
+                    'first_name' => $employe->first_name,
+                    'last_name' => $employe->last_name,
+                    'email' => $employe->email,
+                    'phone' => $employe->phone,
+                    'company' => $employe->company?->name,
+                ]),
+                'current_page' => $employes->currentPage(),
+                'last_page' => $employes->lastPage(),
+                'per_page' => $employes->perPage(),
+                'total' => $employes->total(),
+                'from' => $employes->firstItem(),
+                'to' => $employes->lastItem(),
+            ],
+            'auth' => [
+                'user' => [
+                    'id' => auth()->id(),
+                    'name' => auth()->user()->name,
+                    'email' => auth()->user()->email,
+                    'roles' => auth()->user()->getRoleNames(),
+                ],
+            ],
+        ]);
+    }
     /**
      * Show the form for creating a new resource.
      */

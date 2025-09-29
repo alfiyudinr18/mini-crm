@@ -14,7 +14,7 @@ class CompanyController extends Controller
      */
     public function index()
     {
-        $companies = Company::orderBy('created_at', 'desc')->paginate(10);
+        $companies = Company::orderBy('id', 'desc')->paginate(10);
         // dd(auth()->user()->getRoleNames());
         return inertia('Companies/Index', [
             'companies' => $companies,
@@ -72,7 +72,7 @@ class CompanyController extends Controller
      */
     public function update(CompanyRequest $request, Company $company)
     {
-         $data = $request->validated();
+        $data = $request->validated();
 
         if ($request->hasFile('logo')) {
             if ($company->logo && Storage::disk('public')->exists($company->logo)) {
