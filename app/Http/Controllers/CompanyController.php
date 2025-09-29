@@ -15,7 +15,18 @@ class CompanyController extends Controller
     public function index()
     {
         $companies = Company::orderBy('created_at', 'desc')->paginate(10);
-        return inertia('Companies/Index', compact('companies'));
+        // dd(auth()->user()->getRoleNames());
+        return inertia('Companies/Index', [
+            'companies' => $companies,
+            'auth' => [
+                'user' => [
+                    'id' => auth()->id(),
+                    'name' => auth()->user()->name,
+                    'email' => auth()->user()->email,
+                    'roles' => auth()->user()->getRoleNames(),
+                ],
+            ],
+        ]);
     }
 
     /**

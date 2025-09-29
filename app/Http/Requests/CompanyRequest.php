@@ -44,7 +44,7 @@ class CompanyRequest extends FormRequest
                 [$width, $height] = getimagesize($image->getRealPath());
 
                 if ($width < 100 || $height < 100) {
-                    $validator->errors()->add('logo', 'Logo must be at least 100x100 pixels.');
+                    $validator->errors()->add('logo', 'Logo harus berukuran minimal 100x100 piksel.');
                 }
             }
         });

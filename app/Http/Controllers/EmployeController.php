@@ -24,8 +24,16 @@ class EmployeController extends Controller
                 'phone' => $employe->phone,
                 'company' => $employe->company?->name,
              ]);
-             return Inertia('Employes/Index', [
+            return inertia('Employes/Index', [
                 'employes' => $employes,
+                'auth' => [
+                    'user' => [
+                        'id' => auth()->id(),
+                        'name' => auth()->user()->name,
+                        'email' => auth()->user()->email,
+                        'roles' => auth()->user()->getRoleNames(),
+                    ],
+                ],
             ]);
     }
 

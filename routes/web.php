@@ -24,13 +24,16 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
-
-});
-
-Route::middleware(['auth', 'role:admin'])->group(function () {
+    Route::get('/companies', [CompanyController::class, 'index'])->name('companies.index');
     Route::resource('companies', CompanyController::class);
     Route::post('/companies/{company}', [CompanyController::class, 'update'])->name('companies.update');
     Route::resource('employes', EmployeController::class);
 });
+
+// Route::middleware(['auth', 'role:admin'])->group(function () {
+//     Route::resource('companies', CompanyController::class);
+//     Route::post('/companies/{company}', [CompanyController::class, 'update'])->name('companies.update');
+//     Route::resource('employes', EmployeController::class);
+// });
 
 require __DIR__ . '/auth.php';
