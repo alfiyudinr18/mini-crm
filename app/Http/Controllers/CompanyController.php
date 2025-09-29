@@ -85,6 +85,8 @@ class CompanyController extends Controller
 
             $path = $request->file('logo')->store('companies', 'public');
             $data['logo'] = $path;
+        } else {
+            unset($data['logo']);
         }
 
         $company->update($data);
