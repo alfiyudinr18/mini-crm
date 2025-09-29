@@ -30,7 +30,8 @@ const serverOptions = ref({
 const serverItemsLength = ref(props.employes.total);
 const loading = ref(false);
 
-// Function to map employe data
+console.log(items.value);
+
 const mapEmployeData = (data) => {
     return data.data.map((employe, index) => ({
         no: (data.current_page - 1) * data.per_page + index + 1,
@@ -54,7 +55,7 @@ watch(
                 only: ["employes"],
                 preserveState: true,
                 preserveScroll: true,
-                replace: false, // Ubah ke false agar URL berubah
+                replace: false,
                 onSuccess: () => {
                     loading.value = false;
                 },
@@ -75,6 +76,22 @@ watch(
     },
     { deep: true }
 );
+
+const editEmploye = (id) => {
+    router.get(route("employes.edit", id), {
+        preserveState: true,
+        preserveScroll: true,
+    });
+};
+
+const deleteEmploye = (id) => {
+    if (confirm("Are you sure you want to delete this employee?")) {
+        router.delete(route("employes.destroy", id), {
+            preserveState: true,
+            preserveScroll: true,
+        });
+    }
+};
 </script>
 
 <template>
@@ -154,8 +171,8 @@ watch(
                             <!-- Actions -->
                             <template v-if="isAdmin" #item-action="{ id }">
                                 <div class="flex space-x-2">
-                                    <Link
-                                        :href="route('employes.edit', id)"
+                                    <button
+                                        @click="editEmploye(id)"
                                         class="inline-flex items-center px-3 py-1 text-xs font-medium text-blue-700 bg-blue-50 rounded-md hover:bg-blue-100 transition-colors duration-200"
                                     >
                                         <svg
@@ -172,23 +189,10 @@ watch(
                                             />
                                         </svg>
                                         Edit
-                                    </Link>
-                                    <Link
-                                        as="button"
-                                        method="delete"
-                                        :href="route('employes.destroy', id)"
+                                    </button>
+                                    <button
+                                        @click="deleteEmploye(id)"
                                         class="inline-flex items-center px-3 py-1 text-xs font-medium text-red-700 bg-red-50 rounded-md hover:bg-red-100 transition-colors duration-200"
-                                        @click="
-                                            (e) => {
-                                                if (
-                                                    !confirm(
-                                                        'Are you sure you want to delete this employe?'
-                                                    )
-                                                ) {
-                                                    e.preventDefault();
-                                                }
-                                            }
-                                        "
                                     >
                                         <svg
                                             class="w-3 h-3 mr-1"
@@ -204,7 +208,7 @@ watch(
                                             />
                                         </svg>
                                         Delete
-                                    </Link>
+                                    </button>
                                 </div>
                             </template>
                         </DataTable>

@@ -73,6 +73,25 @@ watch(
     },
     { deep: true }
 );
+
+const editCompany = (id) => {
+    router.get(route("companies.edit", id), {
+        preserveState: true,
+        preserveScroll: true,
+    });
+};
+const deleteCompany = (id) => {
+    if (
+        confirm(
+            "Are you sure you want to delete this company? This action is irreversible."
+        )
+    ) {
+        router.delete(route("companies.destroy", id), {
+            preserveState: true,
+            preserveScroll: true,
+        });
+    }
+};
 </script>
 
 <template>
@@ -192,8 +211,8 @@ watch(
                             <!-- Actions -->
                             <template v-if="isAdmin" #item-action="{ id }">
                                 <div class="flex space-x-2">
-                                    <Link
-                                        :href="route('companies.edit', id)"
+                                    <button
+                                        @click="editCompany(id)"
                                         class="inline-flex items-center px-3 py-1 text-xs font-medium text-blue-700 bg-blue-50 rounded-md hover:bg-blue-100 transition-colors duration-200"
                                     >
                                         <svg
@@ -210,23 +229,10 @@ watch(
                                             />
                                         </svg>
                                         Edit
-                                    </Link>
-                                    <Link
-                                        as="button"
-                                        method="delete"
-                                        :href="route('companies.destroy', id)"
+                                    </button>
+                                    <button
+                                        @click="deleteCompany(id)"
                                         class="inline-flex items-center px-3 py-1 text-xs font-medium text-red-700 bg-red-50 rounded-md hover:bg-red-100 transition-colors duration-200"
-                                        @click="
-                                            (e) => {
-                                                if (
-                                                    !confirm(
-                                                        'Are you sure you want to delete this company?'
-                                                    )
-                                                ) {
-                                                    e.preventDefault();
-                                                }
-                                            }
-                                        "
                                     >
                                         <svg
                                             class="w-3 h-3 mr-1"
@@ -242,7 +248,7 @@ watch(
                                             />
                                         </svg>
                                         Delete
-                                    </Link>
+                                    </button>
                                 </div>
                             </template>
                         </DataTable>
