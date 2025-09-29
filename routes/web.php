@@ -25,9 +25,7 @@ Route::middleware(['auth'])->group(function () {
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
     Route::get('/companies', [CompanyController::class, 'index'])->name('companies.index');
-    Route::get('/companies/{company}', [CompanyController::class, 'show'])->name('companies.show');
     Route::get('/employes', [EmployeController::class, 'index'])->name('employes.index');
-    Route::get('/employes/{employe}', [EmployeController::class, 'show'])->name('employes.show');
 });
 
 Route::middleware(['auth', 'role:admin'])->group(function () {
@@ -37,12 +35,14 @@ Route::middleware(['auth', 'role:admin'])->group(function () {
     Route::post('/companies/{company}', [CompanyController::class, 'update'])->name('companies.update');
     Route::put('/companies/{company}', [CompanyController::class, 'update'])->name('companies.update');
     Route::delete('/companies/{company}', [CompanyController::class, 'destroy'])->name('companies.destroy');
+    Route::get('/companies/{company}', [CompanyController::class, 'show'])->name('companies.show');
 
     Route::get('/employes/create', [EmployeController::class, 'create'])->name('employes.create');
     Route::post('/employes', [EmployeController::class, 'store'])->name('employes.store');
     Route::get('/employes/{employe}/edit', [EmployeController::class, 'edit'])->name('employes.edit');
     Route::put('/employes/{employe}', [EmployeController::class, 'update'])->name('employes.update');
     Route::delete('/employes/{employe}', [EmployeController::class, 'destroy'])->name('employes.destroy');
+    Route::get('/employes/{employe}', [EmployeController::class, 'show'])->name('employes.show');
 });
 
 // Route::middleware(['auth', 'role:admin'])->group(function () {
