@@ -89,7 +89,7 @@ class CompanyController extends Controller
 
         $company->update($data);
 
-        $page = $request->query('page', 1);
+        $page = $request->input('page');
 
         return redirect()
             ->route('companies.index', ['page' => $page])

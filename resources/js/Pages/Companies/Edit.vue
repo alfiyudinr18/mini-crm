@@ -1,5 +1,5 @@
 <script setup>
-import { Head, useForm, Link } from "@inertiajs/vue3";
+import { Head, useForm, Link, usePage } from "@inertiajs/vue3";
 import { ref } from "vue";
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout.vue";
 
@@ -8,6 +8,8 @@ const props = defineProps({
     page: Number,
 });
 
+const currentPage = usePage().url.split("page=")[1] || 1;
+
 const logoPreview = ref(null);
 
 const form = useForm({
@@ -15,6 +17,7 @@ const form = useForm({
     email: props.company.email || "",
     website: props.company.website || "",
     logo: null,
+    page: currentPage,
 });
 
 const handleFileUpload = (event) => {
@@ -22,7 +25,6 @@ const handleFileUpload = (event) => {
     if (file) {
         form.logo = file;
 
-        // Create preview
         const reader = new FileReader();
         reader.onload = (e) => {
             logoPreview.value = e.target.result;
@@ -34,7 +36,6 @@ const handleFileUpload = (event) => {
 const removeFile = () => {
     form.logo = null;
     logoPreview.value = null;
-    // Reset file input
     const fileInput = document.getElementById("logo");
     if (fileInput) {
         fileInput.value = "";
@@ -42,8 +43,8 @@ const removeFile = () => {
 };
 
 const submit = () => {
-    form.post(route("companies.update", props.company.id) + `?page=${props.page}`, {
-        forceFormData: true,
+    form.post(route("companies.update", props.company.id), {
+        preserveScroll: true,
     });
 };
 </script>
@@ -290,7 +291,11 @@ const submit = () => {
                                 class="flex items-center justify-end space-x-3 pt-6 border-t border-gray-200"
                             >
                                 <Link
-                                    :href="route('companies.index', { page: props.page })"
+                                    :href="
+                                        route('companies.index', {
+                                            page: props.page,
+                                        })
+                                    "
                                     class="px-4 py-2 text-sm font-medium text-gray-700 bg-gray-100 border border-gray-300 rounded-md hover:bg-gray-200 transition-colors duration-200"
                                 >
                                     Cancel

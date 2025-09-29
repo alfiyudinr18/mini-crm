@@ -82,11 +82,7 @@ const editCompany = (id) => {
     );
 };
 const deleteCompany = (id) => {
-    if (
-        confirm(
-            "Are you sure you want to delete this company? This action is irreversible."
-        )
-    ) {
+    if (confirm("Are you sure you want to delete this company?")) {
         router.delete(route("companies.destroy", id), {
             preserveState: true,
             preserveScroll: true,

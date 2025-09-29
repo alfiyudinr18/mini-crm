@@ -8,10 +8,7 @@ const props = defineProps({
     companies: Array,
 });
 
-// Ambil query page dari URL via Inertia props
 const currentPage = usePage().url.split("page=")[1] || 1;
-
-const photoPreview = ref(null);
 
 const form = useForm({
     first_name: props.employe.first_name || "",
@@ -19,7 +16,7 @@ const form = useForm({
     email: props.employe.email || "",
     phone: props.employe.phone || "",
     company_id: props.employe.company_id || "",
-    page: currentPage, // tambahkan page di form
+    page: currentPage,
 });
 
 const submit = () => {
@@ -208,7 +205,11 @@ const submit = () => {
                                 class="flex items-center justify-end space-x-3 pt-6 border-t border-gray-200"
                             >
                                 <Link
-                                    :href="route('employes.index', { page: form.page })"
+                                    :href="
+                                        route('employes.index', {
+                                            page: form.page,
+                                        })
+                                    "
                                     class="px-4 py-2 text-sm font-medium text-gray-700 bg-gray-100 border border-gray-300 rounded-md hover:bg-gray-200"
                                 >
                                     Cancel
