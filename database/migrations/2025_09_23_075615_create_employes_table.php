@@ -18,6 +18,7 @@ return new class extends Migration
             $table->foreignId('company_id')->constrained('companies')->cascadeOnDelete()->cascadeOnUpdate();
             $table->string('email')->nullable();
             $table->string('phone')->nullable();
+            $table->softDeletes();
             $table->timestamps();
         });
     }
