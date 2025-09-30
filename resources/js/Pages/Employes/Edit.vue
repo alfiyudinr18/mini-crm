@@ -2,6 +2,7 @@
 import { Head, useForm, Link, usePage } from "@inertiajs/vue3";
 import { ref } from "vue";
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout.vue";
+import SearchDropdown from "@/Components/SearchDropdown.vue";
 
 const props = defineProps({
     employe: Object,
@@ -146,7 +147,7 @@ const submit = () => {
                                     Phone
                                 </label>
                                 <input
-                                    type="text"
+                                    type="tel"
                                     id="phone"
                                     v-model="form.phone"
                                     :class="[
@@ -167,31 +168,17 @@ const submit = () => {
 
                             <!-- Company Dropdown -->
                             <div>
-                                <label
-                                    for="company_id"
-                                    class="block text-sm font-medium text-gray-700 mb-2"
-                                >
-                                    Company *
-                                </label>
-                                <select
-                                    id="company_id"
+                                <SearchDropdown
                                     v-model="form.company_id"
-                                    :class="[
-                                        'w-full px-3 py-2 border rounded-md text-sm',
-                                        form.errors.company_id
-                                            ? 'border-red-300 focus:border-red-500 focus:ring-red-500'
-                                            : 'border-gray-300 focus:border-blue-500 focus:ring-blue-500',
-                                    ]"
-                                >
-                                    <option value="">Select company</option>
-                                    <option
-                                        v-for="company in companies"
-                                        :key="company.id"
-                                        :value="company.id"
-                                    >
-                                        {{ company.name }}
-                                    </option>
-                                </select>
+                                    :options="companies"
+                                    option-value="id"
+                                    option-label="name"
+                                    label="Company"
+                                    placeholder="-- Select company --"
+                                    :error="form.errors.company_id"
+                                    input-id="company_id"
+                                    position="top"
+                                />
                                 <p
                                     v-if="form.errors.company_id"
                                     class="mt-1 text-sm text-red-600"
